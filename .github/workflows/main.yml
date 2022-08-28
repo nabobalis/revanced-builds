@@ -1,7 +1,15 @@
 name: ReVanced Build
 
 on:
+  # Allow manual runs through the web UI
   workflow_dispatch:
+  schedule:
+    #        ┌───────── minute (0 - 59)
+    #        │ ┌───────── hour (0 - 23)
+    #        │ │ ┌───────── day of the month (1 - 31)
+    #        │ │ │ ┌───────── month (1 - 12 or JAN-DEC)
+    #        │ │ │ │ ┌───────── day of the week (0 - 6 or SUN-SAT)
+    - cron: '0 7 * * *'  # Every day at 07:00 UTC
 
 jobs:
   build:
@@ -29,7 +37,7 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
-          draft: true
+          draft: false
           title: "Release ${{ env.date_now }}"
           files: |
             build/*.apk
